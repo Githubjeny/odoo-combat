@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>{{ task.title }}</h2>
+  <p>{{ task.description }}</p>
+  <p>Due: {{ task.due_date }}</p>
+  <p>Priority: {{ task.priority }}</p>
+  <h3>Comments</h3>
+  <ul>
+    {% for comment in task.comments %}
+      <li>{{ comment.body }} - {{ comment.timestamp }}</li>
+    {% endfor %}
+  </ul>
+  <form action="{{ url_for('task', task_id=task.id) }}" method="post">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.body.label }}<br>
+      {{ form.body(rows=4, cols=40) }}
+    </div>
+    <div><br>
+      {{ form.submit() }}
+    </div>
+  </form>
+{% endblock %}

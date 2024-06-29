@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Tasks</h2>
+  <form action="{{ url_for('add_task') }}" method="post">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.title.label }}<br>
+      {{ form.title(size=32) }}
+    </div>
+    <div>
+      {{ form.description.label }}<br>
+      {{ form.description(rows=4, cols=40) }}
+    </div>
+    <div>
+      {{ form.due_date.label }}<br>
+      {{ form.due_date() }}
+    </div>
+    <div>
+      {{ form.priority.label }}<br>
+      {{ form.priority() }}
+    </div>
+    <div><br>
+      {{ form.submit() }}
+    </div>
+  </form>
+  <ul id="tasks">
+    {% for task in tasks %}
+      <li id="task-{{ task.id }}">
+        {{ task.title }} - {{ task.priority }}
+        <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post" style="display:inline;">
+          <button type="submit">✕</button>
+        </form>
+        <a href="{{ url_for('task', task_id=task.id) }}">Details</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
